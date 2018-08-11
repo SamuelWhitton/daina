@@ -1,0 +1,140 @@
+%YAML 1.2
+---
+# See http://www.sublimetext.com/docs/3/syntax.html
+file_extensions:
+  - dai
+scope: source.dai
+name: Daina
+
+contexts:
+  # The prototype context is prepended to all contexts but those setting
+  # meta_include_prototype: false.
+  prototype:
+    - include: comments
+    - include: injected
+
+  main:
+    # The main context is the initial starting point of our syntax.
+    # Include other contexts from here (or specify them directly).
+    - include: body
+    - include: class_type_definition
+    - include: class_links
+
+  body:
+    - match: '{'
+      scope: meta.block.dai
+      push: inside_block
+
+  operators:
+    - match: '\*|\\|(->)|\+|\-|\~|\||!'
+      scope: variable.parameter.dai
+
+  identifiers:
+    - match: '(::)(\s*)([a-zA-Z][a-zA-Z0-9]*)'
+      scope: meta.dai
+    - match: '(:|::)(\s*)([a-zA-Z][a-zA-Z0-9]*)'
+      scope: string.quoted.double.dai
+    - match: '(\.)(\s*)([a-zA-Z][a-zA-Z0-9]*)'
+      scope: storage.type
+
+  inside_block:
+    - meta_scope: meta.block.dai
+    - include: numbers
+    - include: types
+    - include: strings
+    - include: operators
+    - include: grouping
+    - include: identifiers
+    - match: '{'
+      scope: meta.block.dai
+      push: inside_block
+    - match: '}'
+      scope: meta.block.dai
+      pop: true
+
+  class_links:
+    - match: '\('
+      scope: meta.braces.dai
+      push: 
+        - meta_scope: meta.braces.dai 
+        - match: '\)'
+          pop: true
+        - match: '[a-zA-Z][a-zA-Z0-9]*'
+          scope: keyword.control.import.dai
+
+
+  class_type_definition:
+    - match: '\['
+      scope: storage.type.dai
+      push: inside_class_type_definition
+
+  inside_class_type_definition:
+    - meta_scope: storage.type.dai
+    - match: '\['
+      scope: storage.type.dai
+      push: inside_class_type_definition
+    - match: '\]'
+      scope: storage.type.dai
+      pop: true
+
+  types:
+    - match: '\['
+      scope: entity.name.type.dai
+      push: inside_type
+
+  inside_type:
+    - meta_scope: entity.name.type.dai
+    - match: '\['
+      scope: entity.name.type.dai
+      push: inside_type
+    - match: '\]'
+      scope: entity.name.type.dai
+      pop: true
+
+  numbers:
+    - match: '\b[0-9]+\b'
+      scope: constant.other.dai
+    - match: '\bbx[0-9A-F][0-9A-F]\b'
+      scope: constant.other.dai
+
+  strings:
+    # Strings begin and end with quotes, and use backslashes as an escape
+    # character.
+    - match: '"'
+      scope: constant.other.dai
+      push: inside_string
+
+  inside_string:
+    - meta_include_prototype: false
+    - meta_scope: constant.other.dai
+    - match: '\\.'
+      scope: constant.other.dai
+    - match: '"'
+      scope: constant.other.dai
+      pop: true
+
+  comments:
+    - match: '@@'
+      scope: punctuation.definition.comment.dai
+      push:
+        - meta_scope: comment.block.atat.dai
+        - match: '@@'
+          pop: true    
+    - match: '@'
+      scope: punctuation.definition.comment.dai
+      push:
+        - meta_scope: comment.line.at.dai
+        - match: $\n?
+          pop: true
+
+
+
+  injected:
+    - match: '##'
+      scope: invalid.illegal.dai
+      push:
+        - meta_scope: invalid.illegal.dai
+        - match: '##'
+          pop: true    
+
+
