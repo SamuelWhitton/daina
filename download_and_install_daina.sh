@@ -1,4 +1,3 @@
-#!/bin/bash
 
 echo 'Checking for existing installation...'
 
