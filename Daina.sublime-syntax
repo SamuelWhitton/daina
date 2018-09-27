@@ -30,11 +30,11 @@ contexts:
       scope: variable.parameter.dai
 
   identifiers:
-    - match: '(::)(\s*)([a-zA-Z][a-zA-Z0-9]*)'
+    - match: '(::)(\s*)([_a-zA-Z][_a-zA-Z0-9]*)'
       scope: meta.dai
-    - match: '(:|::)(\s*)([a-zA-Z][a-zA-Z0-9]*)'
+    - match: '(:|::)(\s*)([_a-zA-Z][_a-zA-Z0-9]*)'
       scope: string.quoted.double.dai
-    - match: '(\.)(\s*)([a-zA-Z][a-zA-Z0-9]*)'
+    - match: '(\.)(\s*)([_a-zA-Z][_a-zA-Z0-9]*)'
       scope: storage.type
 
   inside_block:
@@ -59,7 +59,7 @@ contexts:
         - meta_scope: meta.braces.dai 
         - match: '\)'
           pop: true
-        - match: '[a-zA-Z][a-zA-Z0-9]*'
+        - match: '[_a-zA-Z][_a-zA-Z0-9]*'
           scope: keyword.control.import.dai
 
 

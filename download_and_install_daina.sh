@@ -27,6 +27,7 @@ tar -xf "${currentVersionOfDaina}.tar"
 if [ -d "${currentVersionOfDaina}" ] && [ -e "${currentVersionOfDaina}.tar" ]; then
 	cd "${currentVersionOfDaina}"
 	sudo "./install.pl"
+	sudo sh -c "echo '${currentVersionOfDaina}' > '${expectedFolderForExistingDainaInstallation}/version'"
 	cd ../
 	echo 'Cleaning up...'
 	sudo rm -R "$currentVersionOfDaina"
