@@ -94,7 +94,7 @@ contexts:
   numbers:
     - match: '\b[0-9]+\b'
       scope: constant.other.dai
-    - match: '\bbx[0-9A-F][0-9A-F]\b'
+    - match: '\b0b[0-9A-F][0-9A-F]\b'
       scope: constant.other.dai
 
   strings:
